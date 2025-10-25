@@ -19,5 +19,7 @@
 - Cloudflare for WAF
 - Porkbun for domain ownership
 
+- Obs: The utilization of these technologies will vary based on the version of the project, there will be a version for running locally, a cloud version to run with low traffic and a version to run with high traffic.
+
 ## This project will have two versions. The first one for a single server that'll run and allow everyone to use it. And the second one, which will be microsservice based so I can scale it on future
 

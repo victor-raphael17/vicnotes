@@ -1,0 +1,21 @@
+services:
+  postgresql:
+    container_name: pgsql
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: vicnotes-test-user
+      POSTGRES_PASSWORD: vicnotes-test-password
+      POSTGRES_DB: vicnotes-test-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: no
+#  redis:
+#    container_name: redis
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redisdata:/data
+#    restart: no
