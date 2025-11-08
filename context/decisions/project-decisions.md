@@ -5,3 +5,5 @@ For the local version, I won't use Redis, since it's not needed due to the low t
 For the low traffic cloud version, I won't use Redis, since it's not needed and it's supossed to be as cheap as possible.
 
 For the high traffic cloud version, I will use Redis, since it's needed due to the high traffic.
+
+I won't be using node.js for the backend. I chose Go because it has better maintainability.
