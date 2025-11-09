@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/gorilla/mux"
@@ -12,6 +13,7 @@ import (
 	"vicnotes/backend/database"
 	"vicnotes/backend/handlers"
 	"vicnotes/backend/middleware"
+	"vicnotes/backend/utils"
 )
 
 func main() {
@@ -19,6 +21,12 @@ func main() {
 	if err := godotenv.Load("../.env"); err != nil {
 		log.Println("No .env file found, using system environment variables")
 	}
+
+	// Initialize cache
+	cache := utils.NewSimpleCache()
+
+	// Initialize circuit breaker for database
+	dbCircuitBreaker := utils.NewCircuitBreaker(5, 2, 30*time.Second)
 
 	// Initialize database
 	db, err := database.InitDB()
@@ -44,17 +52,17 @@ func main() {
 
 	// Auth routes
 	authRouter := router.PathPrefix("/api/v1/auth").Subrouter()
-	authRouter.HandleFunc("/register", handlers.Register(db)).Methods("POST")
-	authRouter.HandleFunc("/login", handlers.Login(db)).Methods("POST")
+	authRouter.HandleFunc("/register", handlers.Register(db, dbCircuitBreaker)).Methods("POST")
+	authRouter.HandleFunc("/login", handlers.Login(db, dbCircuitBreaker)).Methods("POST")
 
 	// Protected routes
 	notesRouter := router.PathPrefix("/api/v1/notes").Subrouter()
 	notesRouter.Use(middleware.AuthMiddleware)
-	notesRouter.HandleFunc("", handlers.CreateNote(db)).Methods("POST")
-	notesRouter.HandleFunc("", handlers.ListNotes(db)).Methods("GET")
-	notesRouter.HandleFunc("/{id}", handlers.GetNote(db)).Methods("GET")
-	notesRouter.HandleFunc("/{id}", handlers.UpdateNote(db)).Methods("PUT")
-	notesRouter.HandleFunc("/{id}", handlers.DeleteNote(db)).Methods("DELETE")
+	notesRouter.HandleFunc("", handlers.CreateNote(db, cache, dbCircuitBreaker)).Methods("POST")
+	notesRouter.HandleFunc("", handlers.ListNotes(db, cache, dbCircuitBreaker)).Methods("GET")
+	notesRouter.HandleFunc("/{id}", handlers.GetNote(db, cache, dbCircuitBreaker)).Methods("GET")
+	notesRouter.HandleFunc("/{id}", handlers.UpdateNote(db, cache, dbCircuitBreaker)).Methods("PUT")
+	notesRouter.HandleFunc("/{id}", handlers.DeleteNote(db, cache, dbCircuitBreaker)).Methods("DELETE")
 
 	// Get port from config
 	port := config.GetPort()

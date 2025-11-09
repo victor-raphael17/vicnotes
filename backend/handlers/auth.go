@@ -10,7 +10,7 @@ import (
 )
 
 // Register handles user registration
-func Register(db *sql.DB) http.HandlerFunc {
+func Register(db *sql.DB, cb *utils.CircuitBreaker) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
@@ -45,12 +45,14 @@ func Register(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		// Insert user
+		// Insert user with circuit breaker
 		var userID int
-		err = db.QueryRow(
-			"INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
-			req.Email, passwordHash,
-		).Scan(&userID)
+		err = cb.Call(func() error {
+			return db.QueryRow(
+				"INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
+				req.Email, passwordHash,
+			).Scan(&userID)
+		})
 
 		if err != nil {
 			w.WriteHeader(http.StatusConflict)
@@ -84,7 +86,7 @@ func Register(db *sql.DB) http.HandlerFunc {
 }
 
 // Login handles user login
-func Login(db *sql.DB) http.HandlerFunc {
+func Login(db *sql.DB, cb *utils.CircuitBreaker) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
@@ -108,13 +110,15 @@ func Login(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		// Get user
+		// Get user with circuit breaker
 		var user models.User
 		var passwordHash string
-		err := db.QueryRow(
-			"SELECT id, email, password_hash FROM users WHERE email = $1",
-			req.Email,
-		).Scan(&user.ID, &user.Email, &passwordHash)
+		err := cb.Call(func() error {
+			return db.QueryRow(
+				"SELECT id, email, password_hash FROM users WHERE email = $1",
+				req.Email,
+			).Scan(&user.ID, &user.Email, &passwordHash)
+		})
 
 		if err == sql.ErrNoRows {
 			w.WriteHeader(http.StatusUnauthorized)

@@ -3,22 +3,42 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	_ "github.com/lib/pq"
 	"vicnotes/backend/config"
+	"vicnotes/backend/utils"
 )
 
-// InitDB initializes the database connection
+// InitDB initializes the database connection with retry logic
 func InitDB() (*sql.DB, error) {
 	dbURL := config.GetDatabaseURL()
-	db, err := sql.Open("postgres", dbURL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open database: %w", err)
+	var db *sql.DB
+
+	retryConfig := utils.RetryConfig{
+		MaxAttempts:  5,
+		InitialDelay: 500 * time.Millisecond,
+		MaxDelay:     10 * time.Second,
+		Multiplier:   2.0,
 	}
 
-	// Test the connection
-	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("failed to ping database: %w", err)
+	err := utils.Retry(func() error {
+		var err error
+		db, err = sql.Open("postgres", dbURL)
+		if err != nil {
+			return fmt.Errorf("failed to open database: %w", err)
+		}
+
+		// Test the connection
+		if err := db.Ping(); err != nil {
+			return fmt.Errorf("failed to ping database: %w", err)
+		}
+
+		return nil
+	}, retryConfig)
+
+	if err != nil {
+		return nil, err
 	}
 
 	// Set connection pool settings
