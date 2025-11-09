@@ -15,8 +15,8 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
-    container_name: vicnotes-backend
+  go:
+    container_name: vicnotes-go
     build:
       context: ./backend
       dockerfile: Dockerfile
