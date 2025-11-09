@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"time"
 )
 
@@ -90,7 +91,7 @@ func calculateBackoff(attempt int, config RetryConfig) time.Duration {
 	}
 	
 	// Add jitter (±10%)
-	jitter := backoff * 0.1 * (2*math.Random() - 1)
+	jitter := backoff * 0.1 * (2*rand.Float64() - 1)
 	
 	return time.Duration(backoff + jitter)
 }
