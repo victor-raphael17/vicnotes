@@ -16,7 +16,7 @@ services:
       retries: 5
 
   go:
-    container_name: vicnotes-go
+    container_name: go
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -30,6 +30,17 @@ services:
     restart: no
     environment:
       POSTGRES_HOST: pgsql
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - go
+    restart: unless-stopped
 
 #  redis:
 #    container_name: redis

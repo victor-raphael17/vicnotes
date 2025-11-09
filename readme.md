@@ -4,21 +4,31 @@
 
 ## The tech stack will vary based on the version of the project. There will be a version for running it locally, a cloud version to run with low traffic and another cloud version to run with high traffic.
 
-### Cloud version tech stack:
+## Tech stack:
+
+### AI
+
+- Windsurf
 - Quick AI programming technique from Felipe Forbeck
+
+### Code
+
 - Vue.js for the frontend
 - Tailwind CSS for styling
+- Go for the backend
+
+### Infra
+
 - Nginx for reverse proxy
 - PostgreSQL for registering the users
-- Go for the backend
 - Docker for containerization 
-- AWS S3 for storing the notes context (only on cloud versions)
-- Redis for caching (only on cloud versions)
-- AWS EC2 for the server (only on cloud versions)
 - GitHub for version control
-- GitHub Actions to CI/CD
-- Cloudflare for WAF
-- Porkbun for domain ownership
+- AWS S3 for storing the notes context (cloud versions)
+- AWS EC2 for the server (cloud versions)
+- Redis for caching (cloud versions)
+- GitHub Actions to CI/CD (cloud versions)
+- Cloudflare for WAF (cloud versions)
+- Porkbun for domain ownership (cloud versions)
 
 ## Configuration for devs
 1. Make sure you have the following dependencies installed:
