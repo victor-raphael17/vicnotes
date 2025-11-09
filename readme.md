@@ -11,12 +11,12 @@
 - Nginx for reverse proxy
 - PostgreSQL for registering the users
 - Go for the backend
-- AWS S3 for storing the notes context
-- Redis for caching
-- Docker for containerization
+- Docker for containerization 
+- AWS S3 for storing the notes context (only on cloud versions)
+- Redis for caching (only on cloud versions)
+- AWS EC2 for the server (only on cloud versions)
 - GitHub for version control
 - GitHub Actions to CI/CD
-- AWS EC2 for the server
 - Cloudflare for WAF
 - Porkbun for domain ownership
 

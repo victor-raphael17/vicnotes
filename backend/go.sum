@@ -1,0 +1,8 @@
+github.com/gorilla/mux v1.8.1 h1:TuBL49tXwxGEEx+wAzS/ESJgkPiaDL/SF+zLLP1ImY=
+github.com/gorilla/mux v1.8.1/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLvNHc=
+github.com/joho/godotenv v1.5.1 h1:7P4SfwW0WPLNrDASmMmTv2kjmMJ7RJF2X1dnvjstNc=
+github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa49BEAfY6aU=
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQsRKfurTLp5ByQuGc=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4xnaC1exQsxYbtVFn5p9/eSYMvA64l7DFU=
+golang.org/x/crypto v0.17.0 h1:r8bRNjWL3GshPW2xiPH95au2Gr+KV+0PCo0dRWzScM=
+golang.org/x/crypto v0.17.0/go.mod h1:gCAAfMLgwOJRpqjZxvrYmyVfgSP4J37wfp6cnf/cp0=
