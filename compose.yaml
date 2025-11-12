@@ -31,16 +31,16 @@ services:
     environment:
       POSTGRES_HOST: pgsql
 
-  frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - go
-    restart: unless-stopped
+#  frontend:
+#    container_name: frontend
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - go
+#    restart: unless-stopped
 
 #  redis:
 #    container_name: redis
