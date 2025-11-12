@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.21 as builder
+FROM golang:1.21 AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY go.mod go.sum ./
 RUN go mod tidy
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o vicnotes-go .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go .
 
 # Runtime stage
 FROM debian:trixie-slim
@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 
 WORKDIR /root/
 
-COPY --from=builder /app/vicnotes-go .
+COPY --from=builder /app/go .
 
 EXPOSE 8080
 
-CMD ["./vicnotes-go"]
+CMD ["./go"]
