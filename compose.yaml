@@ -31,8 +31,8 @@ services:
     environment:
       POSTGRES_HOST: pgsql
 
-  nginx:
-    container_name: nginx
+  frontend:
+    container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile

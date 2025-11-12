@@ -15,7 +15,7 @@
 
 - Vue.js for the frontend
 - Tailwind CSS for styling
-- Go for the backend
+- Golang for the backend
 
 ### Infra
 

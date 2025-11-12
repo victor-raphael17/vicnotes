@@ -23,6 +23,7 @@
     "postcss": "^8.4.31",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.49.0",
-    "eslint-plugin-vue": "^9.17.0"
+    "eslint-plugin-vue": "^9.17.0",
+    "terser": "^5.22.0"
   }
 }
