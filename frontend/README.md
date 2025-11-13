@@ -41,7 +41,7 @@ frontend/
 
 ### Prerequisites
 
-- Node.js 16+ and npm/yarn/pnpm
+- Node.js 16+ and npm
 
 ### Installation
 
